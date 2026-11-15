@@ -264,7 +264,7 @@ async function cCall(o){const r=await fetch(cUrl(),{method:"POST",headers:{"Cont
 function cSched(){if(!cUrl())return;clearTimeout(pushT);pushT=setTimeout(cPush,1500)}
 function cAdopt(d,ts){D=mig(d);cloudTs=ts;lsave();if(me){me=D.users.find(u=>u.id==me.id)||null;if(!me)view="list"}}
 const tOf=r=>Math.max(r.created||0,(r.resp||{}).ts||0,(r.cresp||{}).ts||0,(r.closed||{}).ts||0,...(r.returns||[]).map(x=>x.ts||0));
-function cMerge(l,r){const o={...r,...(me&&me.role=="admin"?{project:l.project,drives:l.drives,gas:l.gas,gkey:l.gkey}:{})};const um=new Map();(r.users||[]).forEach(u=>um.set(u.id,u));(l.users||[]).forEach(u=>um.set(u.id,u));o.users=[...um.values()];const rm=new Map();(r.reqs||[]).forEach(x=>rm.set(x.id,x));(l.reqs||[]).forEach(x=>{const y=rm.get(x.id);if(!y||tOf(x)>tOf(y))rm.set(x.id,x)});const dl_=new Set([...(l.del||[]),...(r.del||[])]);o.del=[...dl_];o.users=o.users;[...rm.keys()].forEach(k=>{if(dl_.has(k))rm.delete(k)});o.reqs=[...rm.values()].sort((a,b)=>a.created-b.created);const mg=(a,b,f)=>{const m=new Map();(b||[]).forEach(x=>m.set(x.id,x));(a||[]).forEach(x=>{const y=m.get(x.id);m.set(x.id,y&&f?f(x,y):x)});return[...m.values()]};o.photos=mg(l.photos,r.photos).filter(x=>!dl_.has(x.id));o.letters=mg(l.letters,r.letters,(x,y)=>({...y,...x,replies:mg(x.replies,y.replies)})).filter(x=>!dl_.has(x.id)).map(x=>({...x,replies:(x.replies||[]).filter(p=>!dl_.has(p.id))}));return o}
+function cMerge(l,r){const o={...r,...(me&&me.role=="admin"?{project:l.project,drives:l.drives,gas:l.gas,gkey:l.gkey}:{})};const um=new Map();(r.users||[]).forEach(u=>um.set(u.id,u));(l.users||[]).forEach(u=>um.set(u.id,u));o.users=[...um.values()];const rm=new Map();(r.reqs||[]).forEach(x=>rm.set(x.id,x));(l.reqs||[]).forEach(x=>{const y=rm.get(x.id);if(!y||tOf(x)>tOf(y))rm.set(x.id,x)});const dl_=new Set([...(l.del||[]),...(r.del||[])]);o.del=[...dl_];o.users=o.users;[...rm.keys()].forEach(k=>{if(dl_.has(k))rm.delete(k)});o.reqs=[...rm.values()].sort((a,b)=>a.created-b.created);const mg=(a,b,f)=>{const m=new Map();(b||[]).forEach(x=>m.set(x.id,x));(a||[]).forEach(x=>{const y=m.get(x.id);m.set(x.id,y&&f?f(x,y):x)});return[...m.values()]};o.photos=mg(l.photos,r.photos).filter(x=>!dl_.has(x.id)).map(x=>({...x,files:(x.files||[]).filter(f=>!f.gid||!dl_.has(f.gid))})).filter(x=>x.files.length);o.letters=mg(l.letters,r.letters,(x,y)=>({...y,...x,replies:mg(x.replies,y.replies)})).filter(x=>!dl_.has(x.id)).map(x=>({...x,replies:(x.replies||[]).filter(p=>!dl_.has(p.id))}));return o}
 async function cPush(){pushT=null;if(!cUrl())return;try{let j=await cCall({action:"put",data:D,base:cloudTs});if(j.conflict){cAdopt(cMerge(D,j.data),j.ts);go();j=await cCall({action:"put",data:D,base:cloudTs})}if(j.ok)cloudTs=j.ts}catch(e){console.warn("sync",e)}}
 async function cPull(first){if(!cUrl()||pushT)return;try{const j=await cCall({action:"get",since:cloudTs});if(!j.ok||j.same)return;if(!j.data){if(first)cPush();return}const ae=document.activeElement;if(!first&&me&&(view=="new"||dmOpen||upBusy||(ae&&/INPUT|TEXTAREA|SELECT/.test(ae.tagName))))return;cAdopt(j.data,j.ts);go()}catch(e){console.warn("sync",e)}}
 function cInit(){if(!cUrl())return;cPull(true);setInterval(()=>{if(!document.hidden)cPull(false)},20000)}
@@ -494,7 +494,7 @@ async function mThumbs(ids){
   ch.forEach(id=>{const v=j&&j.ok&&j.t&&j.t[id];if(v)TH[id]="data:"+v[0]+";base64,"+v[1];const b=document.querySelector('.pth[data-g="'+id+'"] .pi');if(b&&TH[id])b.innerHTML='<img alt="" src="'+TH[id]+'">'})}}
 function mGal(date){
  const ps=(D.photos||[]).filter(p=>p.date==date),fs=ps.flatMap(p=>p.files.filter(f=>f.gid)),fu=folderUrl((ps.find(p=>p.fid)||{}).fid);
- mOvl(`<div class="mh"><div><b>صور يوم ${dt(date)}</b><small>${fs.length} صورة</small></div><div style="display:flex;gap:8px">${fu?`<button class="g" onclick="window.open('${fu}','_blank','noopener')">فتح المجلد</button>`:""}<button class="g x" onclick="mClose()" aria-label="إغلاق">✕</button></div></div><div class="pgrid">${fs.map(f=>`<button class="pth" data-g="${H(f.gid)}" onclick="mFull('${H(f.gid)}')" title="${H(f.name)}"><div class="pi">${TH[f.gid]?`<img alt="" src="${TH[f.gid]}">`:"🖼️"}</div><small>${H(f.name)}</small></button>`).join("")}</div>`,920);
+ mOvl(`<div class="mh"><div><b>صور يوم ${dt(date)}</b><small>${fs.length} صورة</small></div><div style="display:flex;gap:8px">${fu?`<button class="g" onclick="window.open('${fu}','_blank','noopener')">فتح المجلد</button>`:""}<button class="g x" onclick="mClose()" aria-label="إغلاق">✕</button></div></div><div class="pgrid">${fs.map(f=>`<div style="position:relative"><button class="pth" style="width:100%" data-g="${H(f.gid)}" onclick="mFull('${H(f.gid)}')" title="${H(f.name)}"><div class="pi">${TH[f.gid]?`<img alt="" src="${TH[f.gid]}">`:"🖼️"}</div><small>${H(f.name)}</small></button>${me.role=="admin"?`<button class="g" style="position:absolute;top:10px;left:10px;padding:2px 8px;background:#fff;border-radius:8px" title="حذف الصورة" onclick="event.stopPropagation();delOnePh('${H(f.gid)}','${date}')">🗑</button>`:""}</div>`).join("")}</div>`,920);
  mThumbs(fs.map(f=>f.gid))}
 async function mFull(gid){
  const f=fileBy(gid)||{name:"image"},d=document.createElement("div");d.className="mo";d.id="ovl2";d.style.zIndex=70;
@@ -508,8 +508,28 @@ async function delPh(date){
  if(me.role!="admin")return;const g=(D.photos||[]).filter(p=>p.date==date);if(!g.length)return;
  const ids=g.flatMap(p=>p.files.map(f=>f.gid).filter(Boolean));
  if(!confirm("حذف صور يوم "+dt(date)+" ("+ids.length+" ملف) من الموقع ومن Google Drive؟"))return;
- try{if(ids.length&&cUrl()){const j=await cCall({action:"trash",ids});if(!j.ok)throw new Error(j.err||"خطأ")}}catch(e){if(!confirm("تعذر الحذف من Google Drive: "+((e&&e.message)||e)+"\nهل تريد الحذف من الموقع فقط؟"))return}
- D.photos=(D.photos||[]).filter(p=>p.date!=date);D.del=(D.del||[]).concat(g.map(p=>p.id));save();go()}
+ const fid=mRoot("photos");
+ try{if(cUrl()){
+  if(ids.length){const j=await cCall({action:"trash",ids});if(!j.ok)throw new Error(j.err||"خطأ")}
+  if(fid){const j2=await cCall({action:"rmsub",folder:fid,sub:date});if(!j2.ok)throw new Error(j2.err||"خطأ")}
+ }}catch(e){if(!confirm("تعذر الحذف من Google Drive: "+((e&&e.message)||e)+"\nهل تريد الحذف من الموقع فقط؟"))return}
+ D.photos=(D.photos||[]).filter(p=>p.date!=date);D.del=(D.del||[]).concat(g.map(p=>p.id),ids);save();mClose();go()}
+async function delOnePh(gid,date){
+ if(me.role!="admin")return;
+ const f=fileBy(gid);if(!f)return;
+ if(!confirm("حذف الصورة "+f.name+" من الموقع ومن Google Drive؟"))return;
+ const others=(D.photos||[]).some(p=>p.date==date&&p.files.some(x=>x.gid&&x.gid!=gid));
+ try{if(cUrl()){
+  const j=await cCall({action:"trash",ids:[gid]});if(!j.ok)throw new Error(j.err||"خطأ");
+  const fid=mRoot("photos");
+  if(!others&&fid){const j2=await cCall({action:"rmsub",folder:fid,sub:date});if(!j2.ok)throw new Error(j2.err||"خطأ")}
+ }}catch(e){if(!confirm("تعذر الحذف من Google Drive: "+((e&&e.message)||e)+"\nهل تريد الحذف من الموقع فقط؟"))return}
+ const gone=[];
+ (D.photos||[]).forEach(p=>{p.files=p.files.filter(x=>x.gid!=gid);if(!p.files.length)gone.push(p.id)});
+ D.photos=(D.photos||[]).filter(p=>!gone.includes(p.id));
+ D.del=(D.del||[]).concat(gone,[gid]);
+ save();go();
+ if(others)mGal(date);else mClose()}
 async function delLtr(id){
  if(me.role!="admin")return;const l=(D.letters||[]).find(x=>x.id==id);if(!l)return;
  if(!confirm("حذف الخطاب "+l.code+" وجميع ردوده من الموقع ومن Google Drive؟"))return;
