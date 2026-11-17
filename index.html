@@ -244,19 +244,17 @@ function buildSpec(r,CODES){
    const st=["Clear","Muddy","Dusty","Other"].indexOf(d.site);if(st>=0)k.add(normCb(["Clear","Muddy","Dusty","Other"][st]));
    const dv=["Mechanical & Plumbing","Electrical","Architectural","Civil","Survey","Other"].indexOf(d.div);if(dv>=0)k.add(normCb(["Mechanical & Plumbing","Electrical","Architectural","Civil","Survey","Other"][dv]));
   }
-  if(f=="ncr"){U("D6",d.contractor);U("P6",dt(d.date));U("D7",d.desc);U("P7",d.project);U("D8",d.location);U("P8",r.no);U("H9",d.drawing);U("C10",d.from);U("H10",d.to);
-   L("B",14,20,d.nc,110);L("B",29,34,d.corr,110);L("B",36,41,d.prev,110);U("E43",d.contractor);U("Q43",dt(new Date(r.created).toISOString().slice(0,10)));
+  if(f=="ncr"){U("G8",d.contractor);U("R8",dt(d.date));U("F9",d.desc||"");U("R9",d.project);U("F10",d.location);U("R10",r.no);U("J11",d.drawing);U("E12",d.from);U("J12",d.to);
    const nw={"Specs.":normCb("Specs."),"Method of statement":normCb("Method of statement"),"Shop drawing":normCb("Shop drawing"),"Design drawing":normCb("Design drawing"),"Other":normCb("Other")}[d.ncw];if(nw)k.add(nw);
-   L("B",49,55,s?(s.comment||"")+(s.files&&s.files.length?"\nAttached: "+fn(s.files):""):"",110);
-   if(s){U("E57",s.by);U("Q57",dt(new Date(s.ts).toISOString().slice(0,10)));({A:[],B:[],C:[]})[s.code];}
-   if(s.code=="A")k.add(normCb("Accept")); // not exactly
-   // ncr consultant code checkboxes are Accept/Reject maybe; leave as is
-   [0,1,2,12,13,14,16,17,18,20,21,22].forEach(i=>{});
-   // ncw checkboxes already handled
+   L("D",15,22,d.nc,120);L("D",30,35,d.corr,120);L("D",37,42,d.prev,120);
+   U("F44",d.contractor);U("R44",dt(new Date(r.created).toISOString().slice(0,10)));
+   L("D",48,55,s?(s.comment||"")+(s.files&&s.files.length?"\nAttached: "+fn(s.files):""):"",120);
+   if(s){U("F57",s.by);U("R57",dt(new Date(s.ts).toISOString().slice(0,10)))}
   }
   if(f=="mm"){U("E8",d.project);U("U8",d.location);U("E9",dt(d.date));U("U9",d.time);U("E10",d.mno);U("U10",d.time);
-   // attendees table etc
-   // no complex
+   const att=d.att||[];T(14,20,{C:0,J:1,N:2},att.map(a=>[a[0]||"",a[1]||"",a[2]||""]));
+   const items=d.items||[];T(22,29,{C:0,Q:1},items.map(x=>[x[0]||"",x[1]||""]));
+   L("C",31,32,d.notes||"",120);
   }
   return{c,k:[...k],checks:[...k]}
 }
