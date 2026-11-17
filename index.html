@@ -417,7 +417,7 @@ return h}
 async function cReply(id){const r=D.reqs.find(x=>x.id==id),fs=await readFiles(document.getElementById("fl"),{form:r.form,no:r.no});r.cresp={ts:Date.now(),comment:document.getElementById("cm").value,files:fs,by:me.name};save();view="list";go()}
 function cClose(id){const r=D.reqs.find(x=>x.id==id);r.closed={ts:Date.now(),comment:document.getElementById("cm").value,by:me.name};save();view="list";go();gUp(r)}
 function cReturn(id){const r=D.reqs.find(x=>x.id==id);(r.returns=r.returns||[]).push({cresp:r.cresp,note:document.getElementById("cm").value,ts:Date.now()});r.cresp=null;save();view="list";go()}
-function saveDrives(){const o={};for(const k of [...Object.keys(FORMS),"photos","letters"]){const v=document.getElementById("dr_"+k).value.trim();if(v&&!safeU(v)){alert("يجب أن يبدأ الرابط بـ https:// ("+(ABBR[k]||k)+")");return}o[k]=v}D.drives=o;D.gas=document.getElementById("gas").value.trim();D.gkey=document.getElementById("gkey").value.trim();if(D.gas&&!safeU(D.gas)){alert("يجب أن يبدأ رابط النص البرمجي بـ https://");return}save();alert("تم الحفظ");go()}
+function saveDrives(){const o={};for(const k of [...Object.keys(FORMS),"photos","letters","ipcs"]){const v=document.getElementById("dr_"+k).value.trim();if(v&&!safeU(v)){alert("يجب أن يبدأ الرابط بـ https:// ("+(ABBR[k]||k)+")");return}o[k]=v}D.drives=o;D.gas=document.getElementById("gas").value.trim();D.gkey=document.getElementById("gkey").value.trim();if(D.gas&&!safeU(D.gas)){alert("يجب أن يبدأ رابط النص البرمجي بـ https://");return}save();alert("تم الحفظ");go()}
 function saveDrive(id){const r=D.reqs.find(x=>x.id==id),v=document.getElementById("dv").value.trim();if(v&&!safeU(v)){alert("يجب أن يبدأ الرابط بـ https://");return}r.drive=v;save();go()}
 async function saveBlob(blob,name){let d=null;try{d=window.claude&&window.claude.use?await window.claude.use("downloads"):null}catch(e){}
 if(d){try{await d.save({filename:name,data:blob})}catch(e){if(!e||e.code!="declined")alert("تعذر التحميل: "+((e&&e.message)||""))}return}
@@ -483,12 +483,14 @@ function projTL(){
 /* ===== photos & letters ===== */
 let upBusy=false;const TH={};
 const MR=["admin","consultant","contractor"],canUp=()=>!!me&&MR.includes(me.role);
+const canUpIpc=()=>!!me&&(me.role=="admin"||me.role=="consultant");
 const OPP={consultant:"contractor",contractor:"consultant"},ROLN={consultant:"Consultant",contractor:"Contractor"},ROLA={consultant:"الاستشاري",contractor:"المقاول"};
 const canReply=l=>!!me&&(me.role=="admin"||(me.role=="contractor"&&l.from=="consultant")||(me.role=="consultant"&&l.from=="contractor"));
 const safeN=s=>String(s).replace(/[\\\/:*?"<>|]/g,"_").trim(),splitN=n=>{n=safeN(n);const i=n.lastIndexOf(".");return i>0&&n.length-i<=6?[n.slice(0,i),n.slice(i)]:[n,""]};
 const rndId=p=>p+Date.now().toString(36)+Math.random().toString(36).slice(2,6),folderUrl=id=>id?"https://drive.google.com/drive/folders/"+id:"";
 const mRoot=k=>folderId(D.drives&&D.drives[k]),b64Of=f=>new Promise((ok,no)=>{const r=new FileReader;r.onload=()=>ok(String(r.result).split(",")[1]);r.onerror=no;r.readAsDataURL(f)});
 const ltrNo=()=>"LTR-"+String(Math.max(0,...(D.letters||[]).map(l=>parseInt(String(l.code).split("-").pop())||0))+1).padStart(3,"0");
+const ipcNo=()=>{const nums=(D.ipcs||[]).map(x=>parseInt(String(x.code).replace(/[^0-9]/g,""))||0);return "IPC No."+String(Math.max(0,...nums)+1).padStart(2,"0")};
 const fileBy=g=>{for(const p of D.photos||[]){const f=p.files.find(x=>x.gid==g);if(f)return f}return null};
 function mOvl(html,w){mClose();const d=document.createElement("div");d.className="mo";d.id="ovl";d.innerHTML=`<div class="md" role="dialog" aria-modal="true" style="width:min(${w||560}px,100%)">${html}</div>`;d.addEventListener("click",e=>{if(e.target==d&&!upBusy)mClose()});document.body.appendChild(d)}
 function mClose(){const o=document.getElementById("ovl");if(o){o.remove(); if(currentPreviewId){const id=currentPreviewId;currentPreviewId=null;cCall({action:"deletePreview",id:id}).catch(()=>{})}}}
@@ -498,13 +500,14 @@ function mOpen(mode,id){
  const key=mode=="photos"?"photos":"letters";
  if(!cUrl()||!mRoot(key)){alert("لم يتم ضبط رابط مجلد "+(mode=="photos"?"الصور":"الخطابات")+" على Google Drive. يرجى من الأدمن إضافته من الإعدادات أولًا.");return}
  let l=null;if(mode=="reply"){l=(D.letters||[]).find(x=>x.id==id);if(!l||!canReply(l))return}
- const title=mode=="photos"?"رفع صور توثيق جديدة":mode=="letter"?"خطاب جديد":"رفع رد على الخطاب "+H(l.code);
- const hint=mode=="photos"?"سيتم إنشاء مجلد باسم التاريخ داخل مجلد الصور":mode=="letter"?"سيتم إنشاء مجلد بكود الخطاب ("+ltrNo()+") داخل مجلد الخطابات":"سيُحفظ الرد داخل مجلد الخطاب "+H(l.code)+" باسم "+ROLN[OPP[l.from]]+" reply";
+ const title=mode=="photos"?"رفع صور توثيق جديدة":mode=="letter"?"خطاب جديد":mode=="ipc"?"مستخلص جديد (IPC)":"رفع رد على الخطاب "+H(l.code);
+ const hint=mode=="photos"?"سيتم إنشاء مجلد باسم التاريخ داخل مجلد الصور":mode=="letter"?"سيتم إنشاء مجلد بكود الخطاب ("+ltrNo()+") داخل مجلد الخطابات":mode=="ipc"?"سيتم إنشاء مجلد باسم "+ipcNo()+" داخل مجلد المستخلصات":"سيُحفظ الرد داخل مجلد الخطاب "+H(l.code)+" باسم "+ROLN[OPP[l.from]]+" reply";
  mOvl(`<div class="mh"><div><b>${title}</b><small>${hint}</small></div><button class="g x" onclick="if(!upBusy)mClose()" aria-label="إغلاق">✕</button></div>
 <label>التاريخ</label><input type="date" id="u_d" value="${today()}">
 ${mode=="letter"&&me.role=="admin"?`<label>جهة الإرسال</label><select id="u_s"><option value="consultant">من الاستشاري إلى المقاول</option><option value="contractor">من المقاول إلى الاستشاري</option></select>`:""}
 ${mode=="letter"?`<label>الموضوع (اختياري)</label><input id="u_t" placeholder="عنوان مختصر للخطاب">`:""}
 <label>${mode=="photos"?"الصور":"المرفقات"}</label>
+${mode=="ipc"?`<label>ملاحظات (اختياري)</label><textarea id="u_cm" rows="3" placeholder="ملاحظات..."></textarea>`:""}
 <div class="two"><button type="button" class="g" onclick="document.getElementById('u_f').click()">📎 Attachment</button><span class="note" id="u_n">لم يتم اختيار ملفات</span></div>
 <input type="file" id="u_f" multiple ${mode=="photos"?'accept="image/*"':""} style="display:none" onchange="upPick()">
 <div id="u_p" class="note" style="margin-top:12px"></div><div class="mpb" style="margin-top:6px"><i id="u_b" style="--c:var(--ac2);width:0;animation:none"></i></div>
@@ -516,18 +519,19 @@ async function doUp(mode,id){
  if(!date){alert("اختر التاريخ");return}
  if(!fs.length){alert("اختر ملفًا واحدًا على الأقل");return}
  if(!canUp()||!cUrl()){return}
- const fid=mRoot(mode=="photos"?"photos":"letters");if(!fid){alert("رابط المجلد غير مضبوط");return}
+ const rootKey=mode=="photos"?"photos":mode=="ipc"?"ipcs":"letters";const fid=mRoot(rootKey);if(!fid){alert("رابط المجلد غير مضبوط");return}
  let code="",from="",label="";
  if(mode=="reply"){const l=(D.letters||[]).find(x=>x.id==id);if(!l||!canReply(l)){alert("غير مسموح");return}code=l.code;label=ROLN[OPP[l.from]]+" reply"}
  else if(mode=="letter"){from=me.role=="admin"?document.getElementById("u_s").value:me.role;code=ltrNo()}
- const sub=mode=="photos"?date:code,subj=mode=="letter"?(document.getElementById("u_t").value||"").trim():"";
+  else if(mode=="ipc"){code=ipcNo()}
+ const sub=mode=="photos"?date:code,subj=mode=="letter"?(document.getElementById("u_t").value||"").trim():"",cmode=mode=="ipc"?(document.getElementById("u_cm")?document.getElementById("u_cm").value.trim():""):"";
  upBusy=true;const btn=document.getElementById("u_go"),pg=document.getElementById("u_p"),bar=document.getElementById("u_b");btn.disabled=true;
  const done=[];let folder="",fail=0;
  for(let i=0;i<fs.length;i++){
   const f=fs[i];pg.textContent="جاري الرفع "+(i+1)+" / "+fs.length+" — "+f.name;bar.style.width=(i/fs.length*100)+"%";
   if(f.size>2e7){alert("الملف "+f.name+" أكبر من 20 ميغابايت ولن يتم رفعه");fail++;continue}
   try{
-   const [bn,ex]=splitN(f.name),fn=mode=="photos"?safeN(f.name):mode=="letter"?bn+" - "+code+" ("+date+")"+ex:bn+" - "+code+" "+label+" ("+date+")"+ex;
+   const [bn,ex]=splitN(f.name),fn=mode=="photos"?safeN(f.name):mode=="letter"?bn+" - "+code+" ("+date+")"+ex:mode=="ipc"?(fs.length>1?code+" ("+(i+1)+")"+ex:code+ex):bn+" - "+code+" "+label+" ("+date+")"+ex;
    const j=await cCall({action:"attach",folder:fid,sub,name:fn,data:await b64Of(f),mime:f.type||"application/octet-stream"});
    if(!j.ok)throw new Error(j.err||"خطأ");
    folder=j.fid||folder;done.push({name:fn,gid:j.id,mime:f.type||"",size:f.size})
@@ -538,6 +542,7 @@ async function doUp(mode,id){
  const now=Date.now();
  if(mode=="photos")(D.photos=D.photos||[]).push({id:rndId("ph"),date,by:me.id,byName:me.name,ts:now,fid:folder,files:done});
  else if(mode=="letter")(D.letters=D.letters||[]).push({id:rndId("lt"),code,date,from,by:me.id,byName:me.name,ts:now,subject:subj,fid:folder,files:done,replies:[]});
+  else if(mode=="ipc")(D.ipcs=D.ipcs||[]).push({id:rndId("ipc"),code,date,by:me.id,byName:me.name,ts:now,fid:folder,files:done,comment:cmode});
  else{const l=(D.letters||[]).find(x=>x.id==id);if(l)(l.replies=l.replies||[]).push({id:rndId("rp"),date,by:me.id,byName:me.name,side:OPP[l.from],ts:now,files:done})}
  save();mClose();go();
  if(fail)alert("تم رفع "+done.length+" ملف، وتعذر رفع "+fail)}
@@ -604,6 +609,21 @@ ${l.subject?`<p style="margin:8px 0 0"><b style="display:inline">${H(l.subject)}
 <div class="lfl"><span class="note">أرسله: ${H(l.byName||"")}</span><span>${filesH(l.files)}</span>${fu?`<a href="${fu}" target="_blank" rel="noopener">📁 المجلد</a>`:""}</div>
 ${rep.map(r=>`<div class="lt2"><b style="display:inline">${ROLN[r.side]} reply</b> <span class="note">(${dt(r.date)}) · ${H(r.byName||"")}</span><div class="lfl" style="margin:6px 0 0"><span>${filesH(r.files)}</span>${me.role=="admin"?`<button class="g x" onclick="delRep('${l.id}','${r.id}')">حذف الرد</button>`:""}</div></div>`).join("")}
 <div class="bar" style="margin-top:12px">${canReply(l)?`<button onclick="mOpen('reply','${l.id}')">↩ رفع رد (${ROLN[to]} reply)</button>`:""}${me.role=="admin"?`<button class="g" onclick="delLtr('${l.id}')">🗑 حذف الخطاب</button>`:""}</div></div>`}
+function ipcSec(){
+  if(!me)return"";
+  const up=canUpIpc(),ro=`<span class="note">صلاحيتك: مشاهدة فقط</span>`;
+  const ips=(D.ipcs||[]).slice().sort((a,b)=>(parseInt(String(b.code).replace(/[^0-9]/g,""))||0)-(parseInt(String(a.code).replace(/[^0-9]/g,""))||0));
+  const rows=ips.map(ip=>{const fu=folderUrl(ip.fid);return `<tr><td><b>${H(ip.code)}</b></td><td>${dt(ip.date)}</td><td style="white-space:normal">${H(ip.byName||"")}</td><td>${ip.files.map(f=>f.gid?`<button class="g x" onclick="gGet('${H(f.gid)}','${H(f.name).replace(/'/g,'')}');return false">⬇ ${H(f.name)}</button>`:H(f.name)).join(" ")}</td><td><td style="white-space:normal">${H(ip.comment||"")||"—"}</td><td>${fu?`<a href="${fu}" target="_blank" rel="noopener">📁 المجلد</a>`:"—"}</td><td>${me.role=="admin"?`<button class="g" onclick="delIpc('${ip.id}')">🗑</button>`:"—"}</td></tr>`}).join("");
+  return `<div class="sh" style="margin-top:26px"><b>📑 المستخلصات (IPC)</b><small>${ips.length} مستخلص</small></div>
+<div class="card">${up?`<button onclick="mOpen('ipc')">＋ رفع مستخلص جديد</button>`:ro}${ips.length?`<div class="ov" style="margin-top:12px"><table><tr><th>الرقم</th><th>التاريخ</th><th>رفعه</th><th>الملفات</th><th>ملاحظات</th><th>المجلد</th><th></th></tr>${rows}</table></div>`:`<p class="note" style="margin:12px 0 0">لا توجد مستخلصات بعد</p>`}</div>`;
+}
+async function delIpc(id){
+  if(me.role!="admin")return;const ip=(D.ipcs||[]).find(x=>x.id==id);if(!ip)return;
+  if(!confirm("حذف المستخلص "+ip.code+" وملفاته ومجلده من Google Drive؟"))return;
+  const fid=mRoot("ipcs");
+  try{if(fid&&cUrl()){const j=await cCall({action:"rmsub",folder:fid,sub:ip.code});if(!j.ok)throw new Error(j.err||"خطأ")}}catch(e){if(!confirm("تعذر الحذف من Google Drive: "+((e&&e.message)||e)+"\nهل تريد الحذف من الموقع فقط؟"))return}
+  D.ipcs=(D.ipcs||[]).filter(x=>x.id!=id);save();go();
+}
 function mediaSecs(){
  if(!me)return"";
  const up=canUp(),ro=`<span class="note">صلاحيتك: مشاهدة فقط</span>`,gr={};
@@ -660,7 +680,7 @@ return `<div class="mo" onclick="if(event.target==this)closeCodes()"><div class=
 function pageList(){let rs=visible().slice();
 if(me.role=="consultant")rs.sort((a,b)=>(isDone(a)?1:0)-(isDone(b)?1:0)||left(a)-left(b));else rs.sort((a,b)=>b.created-a.created);
 let h=dash(visible());if(me.role=="contractor"||me.role=="consultant")h+=`<div class="card"><label>طلب جديد</label><div style="display:flex;gap:8px;flex-wrap:wrap">${Object.entries(FORMS).filter(([k])=>isC({form:k})==(me.role=="consultant")).map(([k,f])=>`<button onclick="view='new';cur='${k}';go()">${f.n}</button>`).join("")}</div></div>`;
-return h+reqSections(()=>visible())+mediaSecs()}
+return h+reqSections(()=>visible())+mediaSecs()+ipcSec()}
 function pageNew(){const F=FORMS[cur],df={contractor:"IMC",project:D.project||"Incinerator Project - Meit Ghamr",date:today(),rev:0};return `<div class="card"><b>${F.n}</b><span class="note">تختلف الحقول حسب النموذج: تقويم للتاريخ، وساعة للوقت، وجداول يمكن إضافة صفوف إليها</span>${layout(F.f,df)}<label>المرفقات</label><input type="file" id="fl" multiple><div class="bar"><button onclick="submitR()">رفع الطلب</button><button class="g" onclick="previewNew()">👁 معاينة</button><button class="g" onclick="view='list';go()">إلغاء</button></div></div>`}
 async function submitR(){const F=FORMS[cur],no=nextNo(cur),fs=await readFiles(document.getElementById("fl"),{form:cur,no:no});
 D.reqs.push({id:"r"+Date.now(),form:cur,no:no,by:me.id,created:Date.now(),data:readF(F.f),files:fs,resp:null});save();view="list";go();gUp(D.reqs[D.reqs.length-1])}
@@ -671,7 +691,7 @@ if(isC(r))h+=cPart(r);else if(r.resp)h+=`<div class="card"><b>رد الاستش�
 else if(me.role=="consultant")h+=`<div class="card"><b>رد الاستشاري</b><label>القرار</label><select id="code">${Object.entries(CODES).map(([k,v])=>`<option value="${k}">${v}</option>`).join("")}</select><label>الملاحظات</label><textarea id="cm" rows="4"></textarea><label>مرفقات الرد</label><input type="file" id="fl" multiple><br><button onclick="respond('${r.id}')">إرسال الرد</button></div>`;
 return h+driveCard(r)+`<div class="bar"><button onclick="dl('${r.id}')">⬇ تحميل Excel (نفس الفورم الأصلي)</button><button class="g" onclick="view='list';go()">رجوع</button></div>`}
 async function respond(id){const r=D.reqs.find(x=>x.id==id),fs=await readFiles(document.getElementById("fl"),{form:r.form,no:r.no});r.resp={ts:Date.now(),code:document.getElementById("code").value,comment:document.getElementById("cm").value,files:fs,by:me.name};save();view="list";go();gUp(r)}
-function pageAdmin(){return dash(D.reqs)+`<div class="card"><b>اسم المشروع</b><div class="two"><input id="pn" value="${H(D.project||"Incinerator Project - Meit Ghamr")}"><button onclick="D.project=pn.value;save();go()">حفظ</button></div></div><div class="card"><b>📁 روابط Google Drive لكل نوع طلب</b><span class="note"> (تظهر في صفحة الطلب وفي جدول الطلبات)</span><label>رابط النص البرمجي Apps Script (للرفع التلقائي)</label><input id="gas" placeholder="https://script.google.com/macros/s/.../exec" value="${H(D.gas||"")}"><label>كلمة السر المعتمدة في النص البرمجي</label><input id="gkey" value="${H(D.gkey||"")}">${Object.entries(FORMS).map(([k,f])=>`<label>${H(f.n)} — رابط المجلد</label><input id="dr_${k}" placeholder="https://drive.google.com/..." value="${H((D.drives||{})[k]||"")}">`).join("")}<label>الصور — رابط المجلد</label><input id="dr_photos" placeholder="https://drive.google.com/..." value="${H((D.drives||{}).photos||"")}"><label>الخطابات — رابط المجلد</label><input id="dr_letters" placeholder="https://drive.google.com/..." value="${H((D.drives||{}).letters||"")}"><br><br><button onclick="saveDrives()">حفظ الروابط</button></div><div class="card"><b>إنشاء مستخدم</b><div class="row"><div><label>الاسم</label><input id="un"></div><div><label>البريد الإلكتروني</label><input id="ue" type="email"></div><div><label>كلمة المرور</label><input id="up"></div><div><label>الدور</label><select id="ur"><option value="contractor">Contractor</option><option value="consultant">Consultant</option><option value="owner">Owner</option></select></div></div><br><button onclick="addU()">إضافة</button> <span class="note">${msg}</span></div><div class="card"><b>المستخدمون</b><div class="ov"><table><tr><th>الاسم</th><th>البريد الإلكتروني</th><th>الدور</th><th></th></tr>${D.users.map(u=>`<tr><td>${H(u.name)}</td><td>${H(u.email)}</td><td>${u.role=="admin"?"admin":`<select onchange="setRole('${u.id}',this.value)">${["contractor","consultant","owner"].map(r=>`<option value="${r}"${u.role==r?" selected":""}>${r}</option>`).join("")}</select>`}</td><td>${u.role=="admin"?`<button class="g" onclick="rstU('${u.id}')">تغيير كلمة المرور</button>`:`<button class="g" onclick="delU('${u.id}')">حذف</button> <button class="g" onclick="rstU('${u.id}')">كلمة مرور جديدة</button>`}</td></tr>`).join("")}</table></div></div><div class="card"><b>إدارة الطلبات</b> <span class="note">(الحذف الفردي من زر 🗑 بجوار كل طلب)</span><br><br><button class="g" onclick="delAll()">🗑 حذف جميع الطلبات</button></div>${reqSections(()=>D.reqs)}${mediaSecs()}`}
+function pageAdmin(){return dash(D.reqs)+`<div class="card"><b>اسم المشروع</b><div class="two"><input id="pn" value="${H(D.project||"Incinerator Project - Meit Ghamr")}"><button onclick="D.project=pn.value;save();go()">حفظ</button></div></div><div class="card"><b>📁 روابط Google Drive لكل نوع طلب</b><span class="note"> (تظهر في صفحة الطلب وفي جدول الطلبات)</span><label>رابط النص البرمجي Apps Script (للرفع التلقائي)</label><input id="gas" placeholder="https://script.google.com/macros/s/.../exec" value="${H(D.gas||"")}"><label>كلمة السر المعتمدة في النص البرمجي</label><input id="gkey" value="${H(D.gkey||"")}">${Object.entries(FORMS).map(([k,f])=>`<label>${H(f.n)} — رابط المجلد</label><input id="dr_${k}" placeholder="https://drive.google.com/..." value="${H((D.drives||{})[k]||"")}">`).join("")}<label>الصور — رابط المجلد</label><input id="dr_photos" placeholder="https://drive.google.com/..." value="${H((D.drives||{}).photos||"")}"><label>الخطابات — رابط المجلد</label><input id="dr_letters" placeholder="https://drive.google.com/..." value="${H((D.drives||{}).letters||"")}"><label>المستخلصات (IPC) — رابط المجلد</label><input id="dr_ipcs" placeholder="https://drive.google.com/..." value="${H((D.drives||{}).ipcs||"")}"><br><br><button onclick="saveDrives()">حفظ الروابط</button></div><div class="card"><b>إنشاء مستخدم</b><div class="row"><div><label>الاسم</label><input id="un"></div><div><label>البريد الإلكتروني</label><input id="ue" type="email"></div><div><label>كلمة المرور</label><input id="up"></div><div><label>الدور</label><select id="ur"><option value="contractor">Contractor</option><option value="consultant">Consultant</option><option value="owner">Owner</option></select></div></div><br><button onclick="addU()">إضافة</button> <span class="note">${msg}</span></div><div class="card"><b>المستخدمون</b><div class="ov"><table><tr><th>الاسم</th><th>البريد الإلكتروني</th><th>الدور</th><th></th></tr>${D.users.map(u=>`<tr><td>${H(u.name)}</td><td>${H(u.email)}</td><td>${u.role=="admin"?"admin":`<select onchange="setRole('${u.id}',this.value)">${["contractor","consultant","owner"].map(r=>`<option value="${r}"${u.role==r?" selected":""}>${r}</option>`).join("")}</select>`}</td><td>${u.role=="admin"?`<button class="g" onclick="rstU('${u.id}')">تغيير كلمة المرور</button>`:`<button class="g" onclick="delU('${u.id}')">حذف</button> <button class="g" onclick="rstU('${u.id}')">كلمة مرور جديدة</button>`}</td></tr>`).join("")}</table></div></div><div class="card"><b>إدارة الطلبات</b> <span class="note">(الحذف الفردي من زر 🗑 بجوار كل طلب)</span><br><br><button class="g" onclick="delAll()">🗑 حذف جميع الطلبات</button></div>${reqSections(()=>D.reqs)}${mediaSecs()}${ipcSec()}`}
 function addU(){const e=ue.value.trim().toLowerCase();if(!e||!up.value||!un.value){msg="أكمل البيانات";return go()}if(D.users.some(u=>u.email==e)){msg="البريد الإلكتروني مستخدم مسبقًا";return go()}D.users.push({id:"u"+Date.now(),email:e,pw:up.value,role:ur.value,name:un.value});save();msg="تمت الإضافة";go()}
 async function gDel(r){const fid=folderId(D.drives&&D.drives[r.form]);if(!cUrl()||!fid)return true;try{const j=await cCall({action:"delete",folder:fid,name:r.no+".xlsx",sub:r.no});if(!j.ok)throw new Error(j.err||"خطأ");return true}catch(e){alert("تم حذف "+r.no+" من الموقع لكن تعذر حذفه من Google Drive: "+((e&&e.message)||e));return false}}
 async function delAll(){if(me.role!="admin"||!D.reqs.length)return;if(!confirm("سيتم حذف جميع الطلبات ("+D.reqs.length+") من الموقع ومن Google Drive. هل أنت متأكد؟"))return;if(prompt('اكتب كلمة "حذف" للتأكيد')!=="حذف")return;const rs=D.reqs.slice();D.reqs=[];D.del=(D.del||[]).concat(rs.map(r=>r.id));save();go();for(const r of rs)await gDel(r)}
