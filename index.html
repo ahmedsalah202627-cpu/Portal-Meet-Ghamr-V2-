@@ -299,7 +299,7 @@ reqs:[r("r1","ir","IR-001",2,{location:"Admin Building",desc:"Excavation inspect
 const mig=d=>{try{if(!d.project||d.project=="Project")d.project="Incinerator Project - Meit Ghamr";const a=(d.users||[]).find(u=>u.email=="admin@site.com"&&u.role=="admin");if(a){a.email="ahmedst@ahmed.com";a.pw="Ahmedchemonics2026"}}catch(e){}return d};
 const load=()=>{try{const s=localStorage.getItem(KEY);if(s)return mig(JSON.parse(s))}catch(e){}return mem||seed()};
 let D=load();const lsave=()=>{mem=D;try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}};const save=()=>{lsave();cSched()};
-const CLOUD={url:"https://script.google.com/macros/s/AKfycbyScNddU0tkens_6Txze9BO-9T5h3IGPWdwCI6tI0mSd8u2c7FZdJAjp783AjWvixa-/exec",key:"admin123"}; // ← ألصق هنا رابط Apps Script وكلمة السر قبل توزيع الملف
+const CLOUD={url:"https://script.google.com/macros/s/AKfycbzFdXJTV8UNE6OQ58fqdeWGgIreAt0uC-AMQqhBtig1vL1lBewneab4I7i2-GlTSK8S/exec",key:"admin123"}; // ← ألصق هنا رابط Apps Script وكلمة السر قبل توزيع الملف
 let cloudTs=0,pushT=null;
 const cUrl=()=>CLOUD.url||D.gas||"",cKey=()=>CLOUD.key||D.gkey||"";
 async function cCall(o){const r=await fetch(cUrl(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({key:cKey(),...o})});return r.json()}
