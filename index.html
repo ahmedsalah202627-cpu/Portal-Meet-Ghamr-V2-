@@ -903,8 +903,8 @@ async function previewX(r){
     const b64=await new Promise((ok,no)=>{const fr=new FileReader;fr.onload=()=>ok(String(fr.result).split(",")[1]);fr.onerror=no;fr.readAsDataURL(blob)});
     const j=await cCall({action:"preview",folder:PREVIEW_FOLDER_ID,name:r.no+".xlsx",data:b64,mime:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"});
     if(!j||!j.ok) throw new Error((j&&j.err)||"فشل الرفع");
-    currentPreviewId=j.id;
     mOvl(`<div class="mh"><div><b>معاينة: ${H(r.no)}</b><small>${H(FORMS[r.form].n)}</small></div><button class="g x" onclick="closePreview()" aria-label="إغلاق">✕</button></div><div style="overflow:hidden;border-radius:12px;background:#fff"><iframe src="${H(j.url)}" style="width:100%;height:72vh;border:0" allowfullscreen></iframe></div><p class="note" style="margin:8px 0 0">هذه المعاينة (Google Drive viewer) مطابقة للملف المحمّل. عند الإغلاق سيتم حذف الملف من Drive.</p>`,1000);
+    currentPreviewId=j.id; // بعد mOvl عشان mClose جواها ما تحذفش الملف فورًا
   }catch(e){ alert("تعذر المعاينة: "+((e&&e.message)||e)); closePreview(); }
 }
 function closePreview(){ if(currentPreviewId){ const id=currentPreviewId; currentPreviewId=null; cCall({action:"deletePreview",id:id}).catch(()=>{}); } mClose(); }
