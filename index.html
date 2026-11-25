@@ -160,6 +160,66 @@ main>*:not(.dash){animation:fu .35s both}
 .play .pfill{animation:grow 1s .3s cubic-bezier(.3,.7,.2,1) both,pst 2s linear infinite}
 @media(max-width:900px){.pg{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.pmh{display:none}}
+
+/* ===== filters (letters / photos) ===== */
+.flt{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+select.fb{width:auto;padding:5px 10px;font-size:13px;border-radius:10px}
+.flt button.x{padding:4px 10px}
+.pgr{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin:14px 0 4px}
+.pgr button{padding:8px 20px;font-weight:700;font-size:14px}
+/* ===== letters redesign ===== */
+.lt-hd{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:28px 4px 12px;scroll-margin-top:84px}
+.lt-ic{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;font-size:22px;color:#fff;background:linear-gradient(135deg,var(--ac),var(--ac2));box-shadow:0 8px 20px rgba(23,136,208,.28)}
+.lt-hd .tt{display:flex;flex-direction:column;gap:2px;margin-inline-end:auto}
+.lt-hd .tt b{font-size:19px}
+.lt-hd .tt small{color:var(--mu);font-size:12.5px}
+.lt-tool{padding:14px 16px}
+.lt-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.lt-row input[type=search]{flex:1;min-width:210px}
+.lt-f{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px;padding-top:12px;border-top:1px dashed var(--bd)}
+.lt-f .lb{font-size:12.5px;color:var(--mu);font-weight:700}
+.lt-seg{flex-wrap:wrap}
+.lt-seg button{padding:6px 13px}
+.lt-seg .ld{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:7px;vertical-align:middle}
+.lt-seg button.on .ld{box-shadow:0 0 0 2px rgba(255,255,255,.55)}
+.lt-empty{text-align:center;color:var(--mu);padding:34px 16px;border:1px dashed var(--bd);border-radius:18px;margin:0 0 14px;background:var(--card)}
+.lc2{--lc:var(--vi);display:flex;gap:16px;align-items:flex-start;background:var(--card);position:relative;overflow:hidden;border:1px solid var(--bd);border-radius:18px;padding:16px 22px 16px 18px;margin-bottom:14px;box-shadow:var(--sh);transition:transform .15s,box-shadow .15s}
+.lc2::before{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:5px;background:var(--lc)}
+.lc2:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(15,40,80,.06),0 14px 34px rgba(15,40,80,.12)}
+.lc2.lcc{--lc:var(--tl)}
+.lc-date{flex:none;width:64px;text-align:center;display:flex;flex-direction:column;line-height:1.15;padding:9px 4px;border-radius:14px;background:color-mix(in srgb,var(--lc) 12%,var(--card));border:1px solid color-mix(in srgb,var(--lc) 32%,transparent)}
+.lc-date b{font-size:25px;color:var(--lc);font-weight:800}
+.lc-date span{font-size:12.5px;font-weight:700}
+.lc-date small{font-size:11px;color:var(--mu);margin-top:2px}
+.lc-body{flex:1;min-width:0}
+.lc-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lc-code{font-weight:800;font-size:15px;letter-spacing:.3px;padding:3px 11px;border-radius:9px;background:var(--bg);border:1px solid var(--bd)}
+.lc-dir{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;padding:3px 12px;border-radius:99px;color:var(--tx);background:color-mix(in srgb,var(--lc) 13%,var(--card));border:1px solid color-mix(in srgb,var(--lc) 35%,transparent)}
+.lc-dir em{font-style:normal;color:var(--lc);font-size:14px}
+.lc-st{--c:var(--wn);margin-inline-start:auto;display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;padding:3px 12px;border-radius:99px;color:var(--tx);background:color-mix(in srgb,var(--c) 14%,var(--card));border:1px solid color-mix(in srgb,var(--c) 38%,transparent)}
+.lc-st::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
+.lc-st.ok{--c:var(--ok)}
+.lc-sub{margin:10px 0 0;font-size:17px;line-height:1.5;font-weight:700}
+.lc-meta{display:flex;gap:8px 14px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:13px;color:var(--mu)}
+.lc-fl{display:inline-flex;gap:6px;flex-wrap:wrap;align-items:center}
+.lc2 a{display:inline-flex;align-items:center;gap:5px;padding:3px 11px;border-radius:99px;background:var(--bg);border:1px solid var(--bd);color:var(--ac);text-decoration:none;font-size:12.5px;font-weight:600}
+.lc2 a:hover{border-color:var(--ac2)}
+.lc-th{position:relative;margin-top:14px;padding-inline-start:20px}
+.lc-th::before{content:"";position:absolute;inset-inline-start:6px;top:8px;bottom:8px;width:2px;border-radius:2px;background:var(--bd)}
+.lc-rp{--rc:var(--vi);position:relative;margin-top:8px;padding:10px 13px;border-radius:13px;background:var(--bg);border:1px solid var(--bd)}
+.lc-rp.lcc{--rc:var(--tl)}
+.lc-rp::before{content:"";position:absolute;inset-inline-start:-20px;top:15px;width:12px;height:12px;border-radius:50%;background:var(--rc);border:2px solid var(--card)}
+.lc-rp .rh{display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center;font-size:13px}
+.lc-rp .rh b{display:inline;font-size:14px;color:var(--rc)}
+.lc-date b,.lc-sub{display:block}
+.lc2 h4{text-align:start;color:var(--tx)}
+.lc-rp .lc-meta{margin-top:8px}
+.lc2 .bar{margin-top:14px}
+button.dng{color:var(--er);border:1px solid color-mix(in srgb,var(--er) 40%,var(--bd))}
+@media(max-width:560px){.lc2{flex-direction:column;gap:12px;padding:14px}.lc-date{flex-direction:row;width:auto;gap:8px;align-items:baseline;padding:6px 12px}.lc-date b{font-size:20px}.lc-st{margin-inline-start:0}}
+
+button:disabled{opacity:.45;cursor:default;transform:none!important;filter:none!important;box-shadow:none!important}
+.sh,.card[id^=rq_]{scroll-margin-top:84px}
 </style></head><body><div id="app"></div>
 <script>
 const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
@@ -324,7 +384,7 @@ const l=left(r);if(l<0)return `<span class="pill bk">متأخر ${-l} يوم</sp
 const st=r=>isC(r)?(r.closed?"Closed":r.cresp?"Contractor replied":"Issued"):(r.resp?CODES[r.resp.code]:"Submitted");
 const nm=id=>(D.users.find(u=>u.id==id)||{}).name||"";
 function visible(){if(me.role=="contractor")return D.reqs.filter(r=>isC(r)||r.by==me.id);if(me.role=="owner")return D.reqs.filter(isDone);return D.reqs}
-function head(){return `<header><div class="logos"><img src="${L.imc}" alt="IMC"><img src="${L.moh}" alt="MoH"><img src="${L.chem}" alt="Chemonics"></div><b>بوابة طلبات المشروع</b><span class="note">${H(me.name)} · ${me.role}</span><button class="g" onclick="me=null;view='list';go()">خروج</button></header>`}
+function head(){return `<header><div class="logos"><img src="${L.imc}" alt="IMC"><img src="${L.moh}" alt="MoH"><img src="${L.chem}" alt="Chemonics"></div>${view=="open"||view=="new"?`<button class="g" title="الرجوع لقائمة الطلبات" onclick="view='list';go()">→ رجوع</button>`:""}<b>بوابة طلبات المشروع</b><span class="note">${H(me.name)} · ${me.role}</span><button class="g" onclick="me=null;view='list';go()">خروج</button></header>`}
 const today=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
 function cellH(c,v){const t=c[1]||"t";if(t=="s")return `<select class="c"><option value=""></option>${c[2].map(o=>`<option>${H(o)}</option>`).join("")}</select>`;return `<input class="c" type="${t=="n"?"number":t=="d"?"date":"text"}" ${t=="n"?'min="0" step="any" inputmode="decimal"':""}>`}
 function rowH(f){return `<tr><td class="sn"></td>${f.c.map(c=>`<td>${cellH(c)}</td>`).join("")}<td><button type="button" class="g x" onclick="this.closest('tr').remove()">×</button></td></tr>`}
@@ -527,11 +587,11 @@ const safeU=u=>/^https?:\/\//i.test(u||"")?u:"";
 const fd=ts=>{const x=new Date(ts);return String(x.getDate()).padStart(2,"0")+"/"+String(x.getMonth()+1).padStart(2,"0")+"/"+x.getFullYear()};
 const rp=r=>isC(r)?(r.closed?`<span class="pill gr">Closed</span>`:""):r.resp?`<span class="pill ${{A:"gr",B:"or",C:"rd"}[r.resp.code]}">${CODES[r.resp.code]}</span>`:"";
 const disc=r=>{const d=r.data||{};let v=d.tow||d.div||"";if(/^Mechanical/i.test(v))v="Mechanical";return TOW.includes(v)?v:""};
-const fil=()=>srcFn().filter(r=>(!flt||r.form==flt)&&(!dflt||disc(r)==dflt)&&(!q||(r.no+" "+(r.data.desc||"")+" "+(r.data.location||"")+" "+nm(r.by)+" "+(r.data.contractor||"")).toLowerCase().includes(q.toLowerCase())));
+const fil=()=>srcFn().filter(r=>(!flt||r.form==flt)&&(!dflt||disc(r)==dflt)&&dOk(rF,isoD(r.created))&&(!q||(r.no+" "+(r.data.desc||"")+" "+(r.data.location||"")+" "+nm(r.by)+" "+(r.data.contractor||"")).toLowerCase().includes(q.toLowerCase())));
 function tbl(rs,cl){return `<div class="ov"><table><tr><th>No.</th><th>النوع</th><th>الوصف</th><th>المقاول</th><th>الرفع</th>${cl?"<th>تاريخ الرد</th><th style='text-align:center;vertical-align:middle'>الرد</th><th>المدة</th><th>Drive</th>":"<th>العدّاد</th>"}<th></th></tr>${rs.map(r=>`<tr><td><b>${H(r.no)}</b>${renNoBtn(r)}</td><td>${ABBR[r.form]}</td><td style="white-space:normal;min-width:150px">${H(r.data.desc||r.data.location||"—")}</td><td>${H(r.data.contractor||(isC(r)?"—":nm(r.by)))}</td><td>${fd(r.created)}</td>${cl?`<td>${fd(rts(r))}</td><td>${rp(r)}</td><td>${used(r)} يوم</td><td>${safeU(r.drive)?`<a href="${H(r.drive)}" target="_blank" rel="noopener">🔗</a>`:safeU(D.drives&&D.drives[r.form])?`<a href="${H(D.drives[r.form])}" target="_blank" rel="noopener">📁</a>`:"—"}</td>`:`<td>${ctr(r)}</td>`}<td style="text-align:left"><button class="g" onclick="cur='${r.id}';view='open';go()">فتح</button> <button class="g" onclick="previewReq('${r.id}')">👁 معاينة</button> ${me.role!="contractor"?`<button onclick="dl('${r.id}')">⬇ Excel</button>`:""}${pdfBtn(r)}${me.role=="admin"?` <button class="g" onclick="delReq('${r.id}')">🗑 حذف</button>`:""}</td></tr>`).join("")||`<tr><td colspan="10" class="note">لا يوجد</td></tr>`}</table></div>`}
-function sec(){const rs=fil();let op=rs.filter(r=>!isDone(r));if(sortMode=="newest")op.sort((a,b)=>b.created-a.created);else if(sortMode=="oldest")op.sort((a,b)=>a.created-b.created);else if(sortMode=="type")op.sort((a,b)=>(a.form||"").localeCompare(b.form||"")||b.created-a.created);const cl=rs.filter(isDone).sort((a,b)=>rts(b)-rts(a));
-return (me.role=="owner"?"":`<div class="card"><b>⏳ قيد المراجعة <span class="cnt">${op.length}</span></b>${tbl(op,0)}</div>`)+`<div class="card"><b>✅ منتهية (تم الرد) <span class="cnt">${cl.length}</span></b>${tbl(cl,1)}</div>`}
-function reqSections(fn){srcFn=fn;const all=fn(),dok=r=>!dflt||disc(r)==dflt,tok=r=>!flt||r.form==flt;return `<div class="card"><div class="row"><div><label>نوع الطلب</label><select onchange="flt=this.value;go()">${["",...Object.keys(FORMS)].map(k=>`<option value="${k}" ${flt==k?"selected":""}>${k?FORMS[k].n:"الكل"} · ${all.filter(r=>(!k||r.form==k)&&dok(r)).length}</option>`).join("")}</select></div><div><label>التخصص</label><select onchange="dflt=this.value;go()">${["",...TOW].map(k=>`<option value="${k}" ${dflt==k?"selected":""}>${k||"الكل"} · ${all.filter(r=>(!k||disc(r)==k)&&tok(r)).length}</option>`).join("")}</select></div><div><label>ترتيب قيد المراجعة</label><select onchange="sortMode=this.value;go()"><option value="newest" ${sortMode=="newest"?"selected":""}>الأحدث أولاً</option><option value="oldest" ${sortMode=="oldest"?"selected":""}>الأقدم أولاً</option><option value="type" ${sortMode=="type"?"selected":""}>حسب النوع</option></select></div></div>${dflt?`<p class="note" style="margin:8px 0 0">يظهر مع فلتر التخصص الطلبات التي بها حقل «نوع العمل» فقط (RFIN, NWS, AR, RFT, RFI, FIR)، أما DPR وNCR وMM فلا تحتوي على تخصص.</p>`:""}<div style="height:12px"></div><div class="two"><input placeholder="🔍 بحث برقم الطلب أو الوصف أو المقاول" value="${H(q)}" oninput="q=this.value;document.getElementById('rs').innerHTML=sec()"><button onclick="logDl()">📋 تحميل Log Sheet</button></div></div><div id="rs">${sec()}</div>`}
+function sec(){const rs=fil();let op=rs.filter(r=>!isDone(r));if(sortMode=="newest")op.sort((a,b)=>b.created-a.created);else if(sortMode=="oldest")op.sort((a,b)=>a.created-b.created);else if(sortMode=="type")op.sort((a,b)=>(a.form||"").localeCompare(b.form||"")||b.created-a.created);const cl=rs.filter(isDone).sort((a,b)=>rts(b)-rts(a)),po=pgSl("ro",op),pc=pgSl("rc",cl);
+return (me.role=="owner"?"":`<div class="card" id="rq_ro"><b>⏳ قيد المراجعة <span class="cnt">${op.length}</span></b>${tbl(po,0)}${pgHtml("ro",op.length)}</div>`)+`<div class="card" id="rq_rc"><b>✅ منتهية (تم الرد) <span class="cnt">${cl.length}</span></b>${tbl(pc,1)}${pgHtml("rc",cl.length)}</div>`}
+function reqSections(fn){srcFn=fn;const all=fn(),dok=r=>!dflt||disc(r)==dflt,tok=r=>!flt||r.form==flt;return `<div class="card"><div class="row"><div><label>نوع الطلب</label><select onchange="flt=this.value;pgS.ro=pgS.rc=1;go()">${["",...Object.keys(FORMS)].map(k=>`<option value="${k}" ${flt==k?"selected":""}>${k?FORMS[k].n:"الكل"} · ${all.filter(r=>(!k||r.form==k)&&dok(r)).length}</option>`).join("")}</select></div><div><label>التخصص</label><select onchange="dflt=this.value;pgS.ro=pgS.rc=1;go()">${["",...TOW].map(k=>`<option value="${k}" ${dflt==k?"selected":""}>${k||"الكل"} · ${all.filter(r=>(!k||disc(r)==k)&&tok(r)).length}</option>`).join("")}</select></div><div><label>ترتيب قيد المراجعة</label><select onchange="sortMode=this.value;pgS.ro=1;go()"><option value="newest" ${sortMode=="newest"?"selected":""}>الأحدث أولاً</option><option value="oldest" ${sortMode=="oldest"?"selected":""}>الأقدم أولاً</option><option value="type" ${sortMode=="type"?"selected":""}>حسب النوع</option></select></div><div><label>التاريخ (يوم / شهر / سنة)</label><div class="flt">${dateSel("rqSet",rF,all.map(r=>isoD(r.created)))}</div></div></div>${dflt?`<p class="note" style="margin:8px 0 0">يظهر مع فلتر التخصص الطلبات التي بها حقل «نوع العمل» فقط (RFIN, NWS, AR, RFT, RFI, FIR)، أما DPR وNCR وMM فلا تحتوي على تخصص.</p>`:""}<div style="height:12px"></div><div class="two"><input placeholder="🔍 بحث برقم الطلب أو الوصف أو المقاول" value="${H(q)}" oninput="q=this.value;pgS.ro=pgS.rc=1;document.getElementById('rs').innerHTML=sec()"><button onclick="logDl()">📋 تحميل Log Sheet</button><button type="button" class="g" title="إزالة كل الفلاتر في هذا القسم والعودة لعرض الكل" onclick="rqClr()">↺ إزالة الفلاتر</button></div></div><div id="rs">${sec()}</div>`}
 function driveCard(r){const u=safeU(r.drive);return `<div class="card"><b>🔗 رابط الملف على Google Drive</b>${safeU(D.drives&&D.drives[r.form])?`<p>📁 مجلد الرفع لهذا النوع: <a href="${H(D.drives[r.form])}" target="_blank" rel="noopener">فتح المجلد</a></p>`:""}${u?`<p><a href="${H(u)}" target="_blank" rel="noopener">${H(u)}</a></p>`:`<p class="note">لم يُضف رابط بعد</p>`}${me.role!="owner"?`<div class="two"><input id="dv" placeholder="https://drive.google.com/..." value="${H(r.drive||"")}"><button onclick="saveDrive('${r.id}')">حفظ</button></div>`:""}</div>`}
 function cPart(r){let h="";
 (r.returns||[]).forEach(x=>{h+=`<div class="card"><b>↩ رد سابق تم رفضه</b><p>${H(x.cresp.comment)||"—"}</p><p class="note">ملاحظة الاستشاري: ${H(x.note)||"—"} · ${fd(x.ts)}</p></div>`});
@@ -730,14 +790,52 @@ async function delRep(lid,rid){
  try{if(ids.length&&cUrl()){const j=await cCall({action:"trash",ids});if(!j.ok)throw new Error(j.err||"خطأ")}}catch(e){if(!confirm("تعذر الحذف من Google Drive: "+((e&&e.message)||e)+"\nهل تريد الحذف من الموقع فقط؟"))return}
  l.replies=l.replies.filter(x=>x.id!=rid);D.del=(D.del||[]).concat([rid]);save();go()}
 let ltQ="";
-function ltFilter(q){ltQ=q;const w=q.toLowerCase().split(/\s+/).filter(Boolean);let n=0;document.querySelectorAll(".ltw").forEach(e=>{const s=e.dataset.s||"",ok=w.every(x=>s.includes(x));e.style.display=ok?"":"none";if(ok)n++});const c=document.getElementById("lt_cnt"),z=document.getElementById("lt_none");if(c)c.textContent=(w.length?n+" من "+document.querySelectorAll(".ltw").length:n)+" خطاب";if(z)z.style.display=n||!document.querySelectorAll(".ltw").length?"none":""}
+const MN=["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"],PG=10;
+let ltF={dir:"",y:"",m:"",d:""},phF={y:"",m:"",d:""},ipF={y:"",m:"",d:""},rF={y:"",m:"",d:""},pgS={lt:1,ph:1,ip:1,ro:1,rc:1};
+const isoD=ts=>{const x=new Date(ts);return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")};
+const fOpts=(a,sel)=>a.map(([v,t])=>`<option value="${v}"${String(sel)===String(v)?" selected":""}>${t}</option>`).join("");
+function dateSel(fn,F,dates){const ys=[...new Set(dates.map(x=>String(x||"").slice(0,4)).filter(Boolean))].sort().reverse(),mo=MN.map((n,i)=>[String(i+1).padStart(2,"0"),n]),dy=Array.from({length:31},(_,i)=>[String(i+1).padStart(2,"0"),String(i+1)]);
+ return `<select class="fb" title="السنة" onchange="${fn}('y',this.value)">${fOpts([["","كل السنين"],...ys.map(y=>[y,y])],F.y)}</select><select class="fb" title="الشهر" onchange="${fn}('m',this.value)">${fOpts([["","كل الشهور"],...mo],F.m)}</select><select class="fb" title="اليوم" onchange="${fn}('d',this.value)">${fOpts([["","كل الأيام"],...dy],F.d)}</select>`}
+const dOk=(F,d)=>(!F.y||d.slice(0,4)==F.y)&&(!F.m||d.slice(5,7)==F.m)&&(!F.d||d.slice(8,10)==F.d);
+function pgHtml(k,n){const N=Math.ceil(n/PG);if(N<=1)return"";const p=Math.min(Math.max(1,pgS[k]),N);return `<div class="pgr"><button type="button" ${p<=1?"disabled":""} onclick="pgGo('${k}',-1)">→ السابق</button><span class="note">صفحة ${p} من ${N} · ${n} عنصر</span><button type="button" ${p>=N?"disabled":""} onclick="pgGo('${k}',1)">التالي ←</button></div>`}
+const pgSl=(k,a)=>{const N=Math.max(1,Math.ceil(a.length/PG));pgS[k]=Math.min(Math.max(1,pgS[k]),N);return a.slice((pgS[k]-1)*PG,pgS[k]*PG)};
+function pgApply(k,els,okFn){const mt=[];els.forEach(e=>{if(okFn(e))mt.push(e);else e.style.display="none"});const N=Math.max(1,Math.ceil(mt.length/PG));pgS[k]=Math.min(Math.max(1,pgS[k]),N);mt.forEach((e,i)=>{e.style.display=i>=(pgS[k]-1)*PG&&i<pgS[k]*PG?"":"none"});const g=document.getElementById(k+"_pg");if(g)g.innerHTML=pgHtml(k,mt.length);return mt}
+function pgGo(k,d){pgS[k]+=d;if(k=="ro"||k=="rc"){const e=document.getElementById("rs");if(e)e.innerHTML=sec()}else if(k=="lt")ltApply();else if(k=="ph")phApply();else ipApply();const t=document.getElementById({ro:"rq_ro",rc:"rq_rc",lt:"lt_top",ph:"ph_top",ip:"ip_top"}[k]);if(t)t.scrollIntoView({behavior:"smooth",block:"start"})}
+const clrB=fn=>`<button type="button" class="g x" title="إزالة كل الفلاتر في هذا القسم والعودة لعرض الكل" onclick="${fn}()">↺ إزالة الفلاتر</button>`;
+function ltBar(lts){const ch=[["","الكل",""],["consultant","من الاستشاري إلى المقاول","var(--vi)"],["contractor","من المقاول إلى الاستشاري","var(--tl)"]];return `<div class="lt-f"><span class="lb">الاتجاه</span><div class="seg lt-seg" id="lt_chips">${ch.map(([v,t,c])=>`<button type="button" data-v="${v}" class="${ltF.dir==v?"on":""}" onclick="ltSet('dir','${v}')">${c?`<i class="ld" style="background:${c}"></i>`:""}${t}</button>`).join("")}</div><span class="lb" style="margin-inline-start:10px">التاريخ</span><div class="flt" id="lt_df">${dateSel("ltSet",ltF,lts.map(l=>l.date))}</div>${clrB("ltClr")}</div>`}
+function phBar(ds){return `<div class="flt" id="ph_df">${dateSel("phSet",phF,ds)}</div>${clrB("phClr")}`}
+function ipBar(ips){return `<div class="flt" id="ip_df">${dateSel("ipSet",ipF,ips.map(x=>x.date))}</div>${clrB("ipClr")}`}
+function ltApply(){const w=ltQ.toLowerCase().split(/\s+/).filter(Boolean),F=ltF,all=[...document.querySelectorAll(".ltw")];
+ const mt=pgApply("lt",all,e=>{const s=e.dataset.s||"";return w.every(x=>s.includes(x))&&(!F.dir||e.dataset.f==F.dir)&&dOk(F,e.dataset.d||"")}),n=mt.length;
+ document.querySelectorAll("#lt_chips button").forEach(b=>b.classList.toggle("on",(b.dataset.v||"")==(F.dir||"")));const act=w.length||F.dir||F.y||F.m||F.d,c=document.getElementById("lt_cnt"),z=document.getElementById("lt_none");
+ if(c)c.textContent=(act?n+" من "+all.length:n)+" خطاب";if(z)z.style.display=n||!all.length?"none":""}
+function ltFilter(q){ltQ=q;pgS.lt=1;ltApply()}
+function ltSet(k,v){ltF[k]=v;pgS.lt=1;ltApply()}
+function ltClr(){ltF={dir:"",y:"",m:"",d:""};ltQ="";pgS.lt=1;document.querySelectorAll("#lt_dir,#lt_df select").forEach(s=>s.value="");const i=document.getElementById("lt_q");if(i)i.value="";ltApply()}
+function phApply(){const F=phF,rows=[...document.querySelectorAll("tr[data-pd]")],mt=pgApply("ph",rows,e=>dOk(F,e.dataset.pd||"")),n=mt.length,sm=a=>a.reduce((t,e)=>t+(+e.dataset.pn||0),0);
+ const act=F.y||F.m||F.d,c=document.getElementById("ph_cnt"),z=document.getElementById("ph_none"),t=document.getElementById("ph_tb");
+ if(c)c.textContent=(act?n+" من "+rows.length:rows.length)+" يوم · "+(act?sm(mt):sm(rows))+" صورة";
+ if(z)z.style.display=n||!rows.length?"none":"";if(t)t.style.display=n||!rows.length?"":"none"}
+function phSet(k,v){phF[k]=v;pgS.ph=1;phApply()}
+function phClr(){phF={y:"",m:"",d:""};pgS.ph=1;document.querySelectorAll("#ph_df select").forEach(s=>s.value="");phApply()}
+function ipApply(){const F=ipF,rows=[...document.querySelectorAll("tr[data-ipd]")],mt=pgApply("ip",rows,e=>dOk(F,e.dataset.ipd||"")),n=mt.length;
+ const act=F.y||F.m||F.d,c=document.getElementById("ip_cnt"),z=document.getElementById("ip_none"),t=document.getElementById("ip_tb");
+ if(c)c.textContent=(act?n+" من "+rows.length:rows.length)+" مستخلص";
+ if(z)z.style.display=n||!rows.length?"none":"";if(t)t.style.display=n||!rows.length?"":"none"}
+function ipSet(k,v){ipF[k]=v;pgS.ip=1;ipApply()}
+function ipClr(){ipF={y:"",m:"",d:""};pgS.ip=1;document.querySelectorAll("#ip_df select").forEach(s=>s.value="");ipApply()}
+function rqSet(k,v){rF[k]=v;pgS.ro=pgS.rc=1;go()}
+function rqClr(){flt="";dflt="";q="";rF={y:"",m:"",d:""};pgS.ro=pgS.rc=1;go()}
 function ltrCard(l){
- const to=OPP[l.from],rep=l.replies||[],fu=folderUrl(l.fid);
- return `<div class="card"><div class="lth"><div><span class="cd">${H(l.code)}</span> <span class="note">(${dt(l.date)})</span></div><div style="display:flex;gap:6px;flex-wrap:wrap"><span class="pill" style="background:var(--in)">من ${ROLA[l.from]} إلى ${ROLA[to]}</span>${rep.length?`<span class="pill gr">تم الرد (${rep.length})</span>`:`<span class="pill or">بانتظار رد ${ROLA[to]}</span>`}</div></div>
-${l.subject?`<p style="margin:8px 0 0"><b style="display:inline">${H(l.subject)}</b></p>`:""}
-<div class="lfl"><span class="note">أرسله: ${H(l.byName||"")}</span><span>${filesH(l.files)}</span>${fu?`<a href="${fu}" target="_blank" rel="noopener">📁 المجلد</a>`:""}</div>
-${rep.map(r=>`<div class="lt2"><b style="display:inline">${ROLN[r.side]} reply</b> <span class="note">(${dt(r.date)}) · ${H(r.byName||"")}</span><div class="lfl" style="margin:6px 0 0"><span>${filesH(r.files)}</span>${me.role=="admin"?`<button class="g x" onclick="delRep('${l.id}','${r.id}')">حذف الرد</button>`:""}</div></div>`).join("")}
-<div class="bar" style="margin-top:12px">${canReply(l)?`<button onclick="mOpen('reply','${l.id}')">↩ رفع رد (${ROLN[to]} reply)</button>`:""}${me.role=="admin"?`<button class="g" onclick="delLtr('${l.id}')">🗑 حذف الخطاب</button>`:""}</div></div>`}
+ const to=OPP[l.from],rep=l.replies||[],fu=folderUrl(l.fid),dm=String(l.date||"").match(/^(\d{4})-(\d{2})-(\d{2})$/),k=l.from=="contractor"?" lcc":"";
+ const tile=dm?`<div class="lc-date"><b>${+dm[3]}</b><span>${MN[+dm[2]-1]}</span><small>${dm[1]}</small></div>`:`<div class="lc-date"><span>${dt(l.date)}</span></div>`;
+ return `<article class="lc2${k}">${tile}<div class="lc-body">
+<div class="lc-top"><span class="lc-code">${H(l.code)}</span><span class="lc-dir">${ROLA[l.from]}<em>←</em>${ROLA[to]}</span>${rep.length?`<span class="lc-st ok">تم الرد (${rep.length})</span>`:`<span class="lc-st">بانتظار رد ${ROLA[to]}</span>`}</div>
+${l.subject?`<h4 class="lc-sub">${H(l.subject)}</h4>`:""}
+<div class="lc-meta"><span>👤 أرسله: ${H(l.byName||"")}</span><span class="lc-fl">${filesH(l.files)}</span>${fu?`<a href="${fu}" target="_blank" rel="noopener">📁 المجلد</a>`:""}</div>
+${rep.length?`<div class="lc-th">${rep.map(r=>`<div class="lc-rp${r.side=="contractor"?" lcc":""}"><div class="rh"><b>${ROLN[r.side]} reply</b><span class="note">${dt(r.date)} · ${H(r.byName||"")}</span></div><div class="lc-meta"><span class="lc-fl">${filesH(r.files)}</span>${me.role=="admin"?`<button class="g x dng" onclick="delRep('${l.id}','${r.id}')">حذف الرد</button>`:""}</div></div>`).join("")}</div>`:""}
+<div class="bar">${canReply(l)?`<button onclick="mOpen('reply','${l.id}')">↩ رفع رد (${ROLN[to]} reply)</button>`:""}${me.role=="admin"?`<button class="g dng" onclick="delLtr('${l.id}')">🗑 حذف الخطاب</button>`:""}</div>
+</div></article>`}
 async function loadIpcProgress(){
   const ips=(D.ipcs||[]).slice().sort((a,b)=>(b.ts||0)-(a.ts||0));
   const latest=ips[0];
@@ -769,9 +867,9 @@ function ipcSec(){
 
   const up=canUpIpc(),ro=`<span class="note">صلاحيتك: مشاهدة فقط</span>`;
   const ips=(D.ipcs||[]).slice().sort((a,b)=>(parseInt(String(b.code).replace(/[^0-9]/g,""))||0)-(parseInt(String(a.code).replace(/[^0-9]/g,""))||0));
-  const rows=ips.map(ip=>{const fu=folderUrl(ip.fid);return `<tr><td><b>${H(ip.code)}</b>${me.role=="admin"?` <button type="button" class="g x" title="تعديل رقم المستخلص" onclick="renameIpc('${ip.id}')">✎</button>`:""}</td><td>${dt(ip.date)}</td><td style="white-space:normal">${H(ip.byName||"")}</td><td>${ip.files.map(f=>f.gid?`<button class="g x" onclick="gGet('${H(f.gid)}','${H(f.name).replace(/'/g,'')}');return false">⬇ ${H(f.name)}</button>${renBtn(f.gid)}`:H(f.name)).join(" ")}</td><td><td style="white-space:normal">${H(ip.comment||"")||"—"}</td><td>${fu?`<a href="${fu}" target="_blank" rel="noopener">📁 المجلد</a>`:"—"}</td><td>${me.role=="admin"?`<button class="g" onclick="delIpc('${ip.id}')">🗑</button>`:"—"}</td></tr>`}).join("");
-  return progCard+`<div class="sh" style="margin-top:26px"><b>📑 المستخلصات (IPC)</b><small>${ips.length} مستخلص</small></div>
-<div class="card">${up?`<button onclick="mOpen('ipc')">＋ رفع مستخلص جديد</button>`:ro}${ips.length?`<div class="ov" style="margin-top:12px"><table><tr><th>الرقم</th><th>التاريخ</th><th>رفعه</th><th>الملفات</th><th>ملاحظات</th><th>المجلد</th><th></th></tr>${rows}</table></div>`:`<p class="note" style="margin:12px 0 0">لا توجد مستخلصات بعد</p>`}</div>`;
+  const rows=ips.map(ip=>{const fu=folderUrl(ip.fid);return `<tr data-ipd="${H(ip.date||"")}"><td><b>${H(ip.code)}</b>${me.role=="admin"?` <button type="button" class="g x" title="تعديل رقم المستخلص" onclick="renameIpc('${ip.id}')">✎</button>`:""}</td><td>${dt(ip.date)}</td><td style="white-space:normal">${H(ip.byName||"")}</td><td>${ip.files.map(f=>f.gid?`<button class="g x" onclick="gGet('${H(f.gid)}','${H(f.name).replace(/'/g,'')}');return false">⬇ ${H(f.name)}</button>${renBtn(f.gid)}`:H(f.name)).join(" ")}</td><td><td style="white-space:normal">${H(ip.comment||"")||"—"}</td><td>${fu?`<a href="${fu}" target="_blank" rel="noopener">📁 المجلد</a>`:"—"}</td><td>${me.role=="admin"?`<button class="g" onclick="delIpc('${ip.id}')">🗑</button>`:"—"}</td></tr>`}).join("");
+  return progCard+`<div class="sh" id="ip_top" style="margin-top:26px"><b>📑 المستخلصات (IPC)</b><small id="ip_cnt">${ips.length} مستخلص</small>${ipBar(ips)}</div>
+<div class="card">${up?`<button onclick="mOpen('ipc')">＋ رفع مستخلص جديد</button>`:ro}${ips.length?`<div class="ov" id="ip_tb" style="margin-top:12px"><table><tr><th>الرقم</th><th>التاريخ</th><th>رفعه</th><th>الملفات</th><th>ملاحظات</th><th>المجلد</th><th></th></tr>${rows}</table></div><p id="ip_none" class="note" style="display:none;margin:12px 0 0">لا توجد مستخلصات في هذا التاريخ</p><div id="ip_pg"></div>`:`<p class="note" style="margin:12px 0 0">لا توجد مستخلصات بعد</p>`}</div>`;
 }
 async function renameIpc(id){
 if(!me||me.role!="admin")return;
@@ -802,12 +900,13 @@ function mediaSecs(){
  (D.photos||[]).forEach(p=>{(gr[p.date]=gr[p.date]||[]).push(p)});
  const ds=Object.keys(gr).sort().reverse();
  const rows=ds.map(d=>{const g=gr[d],n=g.reduce((s,p)=>s+p.files.length,0),who=[...new Set(g.map(p=>p.byName))].filter(Boolean).join("، "),fu=folderUrl((g.find(p=>p.fid)||{}).fid);
-  return `<tr><td><b>${dt(d)}</b></td><td>${n}</td><td style="white-space:normal">${H(who)}</td><td><button onclick="mGal('${d}')">عرض الصور</button> ${fu?`<button class="g" onclick="window.open('${fu}','_blank','noopener')">📁 المجلد</button>`:""} ${me.role=="admin"?`<button class="g" onclick="delPh('${d}')">🗑</button>`:""}</td></tr>`}).join("");
+  return `<tr data-pd="${d}" data-pn="${n}"><td><b>${dt(d)}</b></td><td>${n}</td><td style="white-space:normal">${H(who)}</td><td><button onclick="mGal('${d}')">عرض الصور</button> ${fu?`<button class="g" onclick="window.open('${fu}','_blank','noopener')">📁 المجلد</button>`:""} ${me.role=="admin"?`<button class="g" onclick="delPh('${d}')">🗑</button>`:""}</td></tr>`}).join("");
  const lts=(D.letters||[]).slice().sort((a,b)=>(parseInt(String(b.code).split("-").pop())||0)-(parseInt(String(a.code).split("-").pop())||0));
- return `<div class="sh" style="margin-top:26px"><b>🖼️ صور التوثيق</b><small>${ds.length} يوم · ${(D.photos||[]).reduce((s,p)=>s+p.files.length,0)} صورة</small><button onclick="window.open('https://drive.google.com/drive/folders/1WXm3LBYd1ULuetnAgkX4-emgIYQVd4YB','_blank','noopener')">📁 مجلد الصور</button></div>
-<div class="card">${up?`<button onclick="mOpen('photos')">＋ رفع صور توثيق جديدة</button>`:ro}${ds.length?`<div class="ov" style="margin-top:12px"><table><tr><th>التاريخ</th><th>عدد الصور</th><th>رفعها</th><th></th></tr>${rows}</table></div>`:`<p class="note" style="margin:12px 0 0">لا توجد صور بعد</p>`}</div>
-<div class="sh" style="margin-top:26px"><b>✉️ الخطابات وردودها</b><small id="lt_cnt">${lts.length} خطاب</small><button onclick="window.open('https://drive.google.com/drive/folders/1Hl5rn_rFTDcWdJjYTaKXS0qMwvO0NxA9','_blank','noopener')">📁 مجلد الخطابات</button></div>
-<div class="card">${up?`<button onclick="mOpen('letter')">＋ خطاب جديد</button>`:ro}<input id="lt_q" type="search" placeholder="🔍 بحث في موضوع الخطابات (كلمة أو أكثر)" value="${H(ltQ)}" oninput="ltFilter(this.value)" style="margin-top:${up?"12":"0"}px"></div><p id="lt_none" class="note" style="display:none;margin:0 4px 12px">لا توجد خطابات مطابقة للبحث</p>${lts.map(l=>`<div class="ltw" data-s="${H(String(l.subject||"").toLowerCase())}">${ltrCard(l)}</div>`).join("")||`<div class="card"><p class="note" style="margin:0">لا توجد خطابات بعد</p></div>`}`}
+ return `<div class="sh" id="ph_top" style="margin-top:26px"><b>🖼️ صور التوثيق</b><small id="ph_cnt">${ds.length} يوم · ${(D.photos||[]).reduce((s,p)=>s+p.files.length,0)} صورة</small><button onclick="window.open('https://drive.google.com/drive/folders/1WXm3LBYd1ULuetnAgkX4-emgIYQVd4YB','_blank','noopener')">📁 مجلد الصور</button>${phBar(ds)}</div>
+<div class="card">${up?`<button onclick="mOpen('photos')">＋ رفع صور توثيق جديدة</button>`:ro}${ds.length?`<div class="ov" id="ph_tb" style="margin-top:12px"><table><tr><th>التاريخ</th><th>عدد الصور</th><th>رفعها</th><th></th></tr>${rows}</table></div><p id="ph_none" class="note" style="display:none;margin:12px 0 0">لا توجد صور في هذا التاريخ</p><div id="ph_pg"></div>`:`<p class="note" style="margin:12px 0 0">لا توجد صور بعد</p>`}</div>
+<div class="lt-hd" id="lt_top"><span class="lt-ic">✉️</span><div class="tt"><b>الخطابات وردودها</b><small id="lt_cnt">${lts.length} خطاب</small></div><button class="g" onclick="window.open('https://drive.google.com/drive/folders/1Hl5rn_rFTDcWdJjYTaKXS0qMwvO0NxA9','_blank','noopener')">📁 مجلد الخطابات</button></div>
+<div class="card lt-tool"><div class="lt-row"><input id="lt_q" type="search" placeholder="🔍 بحث في موضوع الخطابات (كلمة أو أكثر)" value="${H(ltQ)}" oninput="ltFilter(this.value)">${up?`<button onclick="mOpen('letter')">＋ خطاب جديد</button>`:ro}</div>${ltBar(lts)}</div>
+<div id="lt_none" class="lt-empty" style="display:none">🔎 لا توجد خطابات مطابقة — عدّل الفلاتر أو اضغط «إزالة الفلاتر»</div>${lts.map(l=>`<div class="ltw" data-s="${H(String(l.subject||"").toLowerCase())}" data-f="${H(l.from||"")}" data-d="${H(l.date||"")}">${ltrCard(l)}</div>`).join("")||`<div class="lt-empty">✉️ لا توجد خطابات بعد</div>`}<div id="lt_pg"></div>`}
 function goType(k){flt=k;go();setTimeout(()=>{const e=document.getElementById("rs");e&&e.scrollIntoView({behavior:"smooth",block:"start"})},60)}
 function dash(rs){const proj=projTL(),S=dStats(rs),play=_an!=me.id+"|"+view,now=new Date(),hr=now.getHours();
 const ROLE={admin:"مدير النظام",consultant:"الاستشاري",contractor:"المقاول",owner:"المالك"}[me.role]||me.role;
@@ -910,8 +1009,9 @@ async function previewX(r){
 function closePreview(){ if(currentPreviewId){ const id=currentPreviewId; currentPreviewId=null; cCall({action:"deletePreview",id:id}).catch(()=>{}); } mClose(); }
 function previewReq(id){const r=D.reqs.find(x=>x.id==id);if(r)previewX(r)}
 async function previewNew(){const F=FORMS[cur];const no=nextNo(cur);const dp=readF(F.f);if(!nwsCheck(dp))return;const r={id:"preview",form:cur,no:no,by:me.id,created:Date.now(),data:dp,files:[],resp:null,sig:me.sig||""};await previewX(r)}
-function go(){const a=document.getElementById("app");try{if(me)localStorage.setItem("portal_sess",JSON.stringify({id:me.id,view:view,cur:cur}));else{localStorage.removeItem("portal_sess");_an="";dmOpen=false;document.body.style.overflow=""}}catch(e){}if(!me){a.innerHTML=`<div class="lg"><div class="card lc"><div class="logos"><img src="${L.imc}"><img src="${L.moh}"><img src="${L.chem}"></div><div class="lt"><h2>بوابة طلبات المشروع</h2><p>${H(D.project||"")}</p></div><b>تسجيل الدخول</b><label>البريد الإلكتروني</label><input id="em" type="email"><label>كلمة المرور</label><input id="pw" type="password" onkeydown="if(event.key=='Enter')login()"><button class="btn" onclick="login()">دخول</button> <span class="note">${msg}</span></div></div>`;return}
-const p=me.role=="admin"&&view=="list"?pageAdmin():view=="new"?pageNew():view=="open"?pageOpen():pageList();a.innerHTML=head()+"<main>"+p+"</main>"+codeModal();a.oninput=calc;document.body.style.overflow=dmOpen&&me.role!="contractor"?"hidden":"";anim();setTimeout(loadIpcProgress,200);}
+let _pv=null,_ly=0;
+function go(){const a=document.getElementById("app"),_sy=window.scrollY,_nv=view=="open"||view=="new"?"sub":"list";try{if(me)localStorage.setItem("portal_sess",JSON.stringify({id:me.id,view:view,cur:cur}));else{localStorage.removeItem("portal_sess");_an="";dmOpen=false;document.body.style.overflow=""}}catch(e){}if(!me){a.innerHTML=`<div class="lg"><div class="card lc"><div class="logos"><img src="${L.imc}"><img src="${L.moh}"><img src="${L.chem}"></div><div class="lt"><h2>بوابة طلبات المشروع</h2><p>${H(D.project||"")}</p></div><b>تسجيل الدخول</b><label>البريد الإلكتروني</label><input id="em" type="email"><label>كلمة المرور</label><input id="pw" type="password" onkeydown="if(event.key=='Enter')login()"><button class="btn" onclick="login()">دخول</button> <span class="note">${msg}</span></div></div>`;return}
+const p=me.role=="admin"&&view=="list"?pageAdmin():view=="new"?pageNew():view=="open"?pageOpen():pageList();a.innerHTML=head()+"<main>"+p+"</main>"+codeModal();a.oninput=calc;document.body.style.overflow=dmOpen&&me.role!="contractor"?"hidden":"";anim();setTimeout(loadIpcProgress,200);try{ltApply();phApply();ipApply()}catch(e){}try{if(_pv&&_pv!=_nv){if(_nv=="sub"){_ly=_sy;window.scrollTo(0,0)}else window.scrollTo(0,_ly||0)}_pv=_nv}catch(e){}}
 try{const ss=JSON.parse(localStorage.getItem("portal_sess")||"null");if(ss){const uu=D.users.find(x=>x.id==ss.id);if(uu){me=uu;view=ss.view||"list";cur=ss.cur||null;if(view=="open"&&!D.reqs.find(r=>r.id==cur))view="list";if(view=="new"&&!FORMS[cur])view="list"}}}catch(e){}
 window.addEventListener("beforeunload",()=>{if(currentPreviewId){try{navigator.sendBeacon&&navigator.sendBeacon(cUrl(),JSON.stringify({key:cKey(),action:"deletePreview",id:currentPreviewId}))}catch(e){}}});
 go();cInit();
